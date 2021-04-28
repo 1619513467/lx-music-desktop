@@ -45,7 +45,7 @@ export default {
     return {
       clickTime: window.performance.now(),
       clickIndex: -1,
-      selectedData: [],
+      selectdData: [],
       isShowDownloadMultiple: false,
       tabId: 'all',
       keyEvent: {
@@ -59,7 +59,6 @@ export default {
           play: true,
           start: true,
           pause: true,
-          playLater: true,
           file: true,
           search: true,
           remove: true,
@@ -75,13 +74,13 @@ export default {
   computed: {
     ...mapGetters(['setting']),
     ...mapGetters('download', ['list', 'downloadStatus']),
-    ...mapGetters('player', ['playInfo']),
+    ...mapGetters('player', ['listId', 'playIndex']),
     isPlayList() {
-      return this.playInfo.listId == 'download'
+      return this.listId == 'download'
     },
     playListIndex() {
-      if (this.playInfo.listId != 'download' || !this.list.length) return
-      let info = this.list[this.playInfo.playIndex]
+      if (this.listId != 'download' || !this.list.length) return
+      let info = this.list[this.playIndex]
       if (!info) return -1
       let key = info.key
       return this.showList.findIndex(i => i.key == key)
@@ -140,11 +139,6 @@ export default {
           name: this.$t('view.download.menu_pause'),
           action: 'pause',
           hide: !this.listMenu.itemMenuControl.pause,
-        },
-        {
-          name: this.$t('view.download.menu_play_later'),
-          action: 'playLater',
-          hide: !this.listMenu.itemMenuControl.playLater,
         },
         {
           name: this.$t('view.download.menu_file'),
@@ -235,7 +229,7 @@ export default {
     },
     handleSelectData(event, clickIndex) {
       if (this.keyEvent.isShiftDown) {
-        if (this.selectedData.length) {
+        if (this.selectdData.length) {
           let lastSelectIndex = this.lastSelectIndex
           this.removeAllSelect()
           if (lastSelectIndex != clickIndex) {
@@ -246,8 +240,8 @@ export default {
               clickIndex = temp
               isNeedReverse = true
             }
-            this.selectedData = this.showList.slice(lastSelectIndex, clickIndex + 1)
-            if (isNeedReverse) this.selectedData.reverse()
+            this.selectdData = this.showList.slice(lastSelectIndex, clickIndex + 1)
+            if (isNeedReverse) this.selectdData.reverse()
             let nodes = this.$refs.dom_tbody.childNodes
             do {
               nodes[lastSelectIndex].classList.add('active')
@@ -256,24 +250,24 @@ export default {
           }
         } else {
           event.currentTarget.classList.add('active')
-          this.selectedData.push(this.showList[clickIndex])
+          this.selectdData.push(this.showList[clickIndex])
           this.lastSelectIndex = clickIndex
         }
       } else if (this.keyEvent.isModDown) {
         this.lastSelectIndex = clickIndex
         let item = this.showList[clickIndex]
-        let index = this.selectedData.indexOf(item)
+        let index = this.selectdData.indexOf(item)
         if (index < 0) {
-          this.selectedData.push(item)
+          this.selectdData.push(item)
           event.currentTarget.classList.add('active')
         } else {
-          this.selectedData.splice(index, 1)
+          this.selectdData.splice(index, 1)
           event.currentTarget.classList.remove('active')
         }
-      } else if (this.selectedData.length) this.removeAllSelect()
+      } else if (this.selectdData.length) this.removeAllSelect()
     },
     removeAllSelect() {
-      this.selectedData = []
+      this.selectdData = []
       let dom_tbody = this.$refs.dom_tbody
       if (!dom_tbody) return
       let nodes = dom_tbody.querySelectorAll('.active')
@@ -312,14 +306,6 @@ export default {
         case 'remove':
           this.removeTask(item)
           break
-        case 'playLater':
-          if (this.selectedData.length) {
-            this.setTempPlayList(this.selectedData.map(s => ({ listId: 'download', musicInfo: s })))
-            this.removeAllSelect()
-          } else {
-            this.setTempPlayList([{ listId: 'download', musicInfo: item }])
-          }
-          break
         case 'file':
           this.handleOpenFolder(item.filePath)
           break
@@ -330,7 +316,7 @@ export default {
     },
     handleSelectAllData() {
       this.removeAllSelect()
-      this.selectedData = [...this.showList]
+      this.selectdData = [...this.showList]
 
       let nodes = this.$refs.dom_tbody.childNodes
       for (const node of nodes) {
@@ -338,19 +324,19 @@ export default {
       }
     },
     // async handleFlowBtnClick(action) {
-    //   let selectedData = [...this.selectedData]
+    //   let selectdData = [...this.selectdData]
     //   this.removeAllSelect()
     //   await this.$nextTick()
 
     //   switch (action) {
     //     case 'start':
-    //       this.startTasks(selectedData)
+    //       this.startTasks(selectdData)
     //       break
     //     case 'pause':
-    //       this.pauseTasks(selectedData)
+    //       this.pauseTasks(selectdData)
     //       break
     //     case 'remove':
-    //       this.removeTasks(selectedData)
+    //       this.removeTasks(selectdData)
     //       break
     //   }
     // },
@@ -367,7 +353,7 @@ export default {
       })
     },
     handleTabChange() {
-      this.selectedData = []
+      this.selectdData = []
     },
     handleListItemRigthClick(event, index) {
       this.listMenu.itemMenuControl.sourceDetail = !!musicSdk[this.showList[index].musicInfo.source].getMusicDetailPageUrl
@@ -382,19 +368,16 @@ export default {
       let item = this.showList[index]
       if (item.isComplate) {
         this.listMenu.itemMenuControl.play =
-        this.listMenu.itemMenuControl.playLater =
         this.listMenu.itemMenuControl.file = true
         this.listMenu.itemMenuControl.start =
         this.listMenu.itemMenuControl.pause = false
       } else if (item.status === this.downloadStatus.ERROR || item.status === this.downloadStatus.PAUSE) {
         this.listMenu.itemMenuControl.play =
-        this.listMenu.itemMenuControl.playLater =
         this.listMenu.itemMenuControl.pause =
         this.listMenu.itemMenuControl.file = false
         this.listMenu.itemMenuControl.start = true
       } else {
         this.listMenu.itemMenuControl.play =
-        this.listMenu.itemMenuControl.playLater =
         this.listMenu.itemMenuControl.start =
         this.listMenu.itemMenuControl.file = false
         this.listMenu.itemMenuControl.pause = true
@@ -424,10 +407,10 @@ export default {
           if (item) this.handlePlay(item)
           break
         case 'start':
-          if (this.selectedData.length) {
-            let selectedData = [...this.selectedData]
+          if (this.selectdData.length) {
+            let selectdData = [...this.selectdData]
             this.removeAllSelect()
-            this.startTasks(selectedData)
+            this.startTasks(selectdData)
           } else {
             item = this.showList[index]
             if (item) this.startTask(item)
@@ -437,10 +420,10 @@ export default {
           }
           break
         case 'pause':
-          if (this.selectedData.length) {
-            let selectedData = [...this.selectedData]
+          if (this.selectdData.length) {
+            let selectdData = [...this.selectdData]
             this.removeAllSelect()
-            this.pauseTasks(selectedData)
+            this.pauseTasks(selectdData)
           } else {
             item = this.showList[index]
             if (item) this.pauseTask(item)
@@ -460,10 +443,10 @@ export default {
           if (item) this.handleSearch(item.musicInfo)
           break
         case 'remove':
-          if (this.selectedData.length) {
-            let selectedData = [...this.selectedData]
+          if (this.selectdData.length) {
+            let selectdData = [...this.selectdData]
             this.removeAllSelect()
-            this.removeTasks(selectedData)
+            this.removeTasks(selectdData)
           } else {
             item = this.showList[index]
             if (item) this.removeTask(item)

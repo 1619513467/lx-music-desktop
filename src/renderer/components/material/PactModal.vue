@@ -80,7 +80,7 @@ export default {
   watch: {
     'setting.isAgreePact'(n) {
       if (n) return
-      this.time = 5
+      this.time = 10
       this.startTimeout()
     },
   },

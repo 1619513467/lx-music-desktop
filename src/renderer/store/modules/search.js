@@ -127,7 +127,7 @@ const actions = {
           }
         }))
       }
-      return Promise.all(task).then(results => commit('setLists', { results, page }))
+      Promise.all(task).then(results => commit('setLists', { results, page }))
     } else {
       return music[rootState.setting.search.searchSource].musicSearch.search(text, page, limit).catch(error => {
         console.log(error)
@@ -167,7 +167,7 @@ const mutations = {
       list.push(...source.list)
       pages.push(source.allPage)
       total += source.total
-      // limit = Math.max(source.limit, limit)
+      limit += source.limit
     }
     state.allPage = Math.max(...pages)
     state.total = total

@@ -44,7 +44,7 @@ module.exports = async newVerNum => {
     desc: version.desc,
   })
   version.version = newVerNum
-  version.desc = newMDChangeLog.replace(/(?:^|(\n))#{1,6} (.+)\n/g, '$1$2').trim()
+  version.desc = newChangeLog
   pkg.version = newVerNum
 
   console.log(chalk.blue('new version: ') + chalk.green(newVerNum))

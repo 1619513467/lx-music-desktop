@@ -237,7 +237,6 @@ export default {
         interval: formatPlayTime(parseInt(item.duration)),
         img: null,
         lrc: null,
-        otherSource: null,
         types,
         _types,
         typeUrl: {},

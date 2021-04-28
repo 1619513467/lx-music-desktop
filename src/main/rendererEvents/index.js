@@ -17,9 +17,7 @@ require('./getDataPath')
 require('./showDialog')
 require('./playList')
 require('./data')
-require('./lyric')
-require('./musicUrl')
+
+require('./xm_verify')
 
 require('./kw_decodeLyric')
-
-require('./userApi')

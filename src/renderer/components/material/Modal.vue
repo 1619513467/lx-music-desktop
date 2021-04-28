@@ -74,9 +74,9 @@ export default {
         'slideOutLeft',
         'slideOutRight',
         'slideOutUp',
-        // 'hinge',
+        'hinge',
       ],
-      inClass: 'animated jackInTheBox',
+      inClass: 'animated flipInX',
       outClass: 'animated flipOutX',
       unwatchFn: null,
     }

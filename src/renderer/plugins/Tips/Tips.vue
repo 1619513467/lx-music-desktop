@@ -17,7 +17,6 @@ export default {
       transform: 'translate(0, 0)',
       cancel: null,
       setTips: null,
-      aotoCloseTimer: null,
     }
   },
   watch: {
@@ -27,13 +26,9 @@ export default {
       })
     },
   },
-  beforeDestroy() {
-    const el = this.$el
-    el.parentNode.removeChild(el)
-  },
   methods: {
     afterLeave(el, done) {
-      this.$destroy()
+      el.parentNode.removeChild(el)
     },
     handleGetOffsetXY(left, top) {
       const tipsWidth = this.$refs.dom_tips.clientWidth

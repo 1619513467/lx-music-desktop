@@ -20,16 +20,11 @@ mainOn(ipcWinLyricNames.get_lyric_info, (event, action) => {
 })
 
 mainOn(ipcWinLyricNames.set_lyric_config, (event, config) => {
-  global.lx_core.setAppConfig({ desktopLyric: config }, WIN_LYRIC_EVENT_NAME.name)
+  global.lx_event.common.setAppConfig({ desktopLyric: config }, WIN_LYRIC_EVENT_NAME.name)
 })
 
 mainHandle(ipcWinLyricNames.get_lyric_config, async() => {
-  return {
-    config: global.appSetting.desktopLyric,
-    languageId: global.appSetting.langId,
-    isShowLyricTranslation: global.appSetting.player.isShowLyricTranslation,
-    isPlayLxlrc: global.appSetting.player.isPlayLxlrc,
-  }
+  return { config: global.appSetting.desktopLyric, languageId: global.appSetting.langId, isShowLyricTransition: global.appSetting.player.isShowLyricTransition }
 })
 
 mainOn(ipcWinLyricNames.set_win_bounds, (event, options) => {

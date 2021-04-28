@@ -4,7 +4,7 @@
     transition(enter-active-class="animated-fast fadeIn" leave-active-class="animated-fast fadeOut")
       .control-bar(v-show="!lrcConfig.isLock")
         core-control-bar(:lrcConfig="lrcConfig" :themes="themeList")
-    core-lyric(:lrcConfig="lrcConfig" :isPlayLxlrc="isPlayLxlrc" :isShowLyricTranslation="isShowLyricTranslation")
+    core-lyric(:lrcConfig="lrcConfig" :isShowLyricTransition="isShowLyricTransition")
   div.resize-left(@mousedown.self="handleMouseDown('left', $event)")
   div.resize-top(@mousedown.self="handleMouseDown('top', $event)")
   div.resize-right(@mousedown.self="handleMouseDown('right', $event)")
@@ -44,47 +44,56 @@ export default {
           isZoomActiveLrc: true,
         },
       },
-      isShowLyricTranslation: true,
-      isPlayLxlrc: true,
+      isShowLyricTransition: true,
       themeList: [
         {
           id: 0,
+          name: '绿意盎然',
           className: 'green',
         },
         {
           id: 1,
+          name: '绿意盎然',
           className: 'yellow',
         },
         {
           id: 2,
+          name: '绿意盎然',
           className: 'blue',
         },
         {
           id: 3,
+          name: '绿意盎然',
           className: 'red',
         },
         {
           id: 4,
+          name: '绿意盎然',
           className: 'pink',
         },
         {
           id: 5,
+          name: '绿意盎然',
           className: 'purple',
         },
         {
           id: 6,
+          name: '绿意盎然',
           className: 'orange',
         },
         {
           id: 7,
+          name: '绿意盎然',
           className: 'grey',
         },
         {
           id: 8,
+          name: '绿意盎然',
           className: 'ming',
         },
         {
           id: 9,
+          name: '绿意盎然',
           className: 'blue2',
         },
       ],
@@ -109,10 +118,9 @@ export default {
     document.removeEventListener('mouseup', this.handleMouseUp)
   },
   methods: {
-    handleUpdateConfig({ config, languageId, isShowLyricTranslation, isPlayLxlrc }) {
+    handleUpdateConfig({ config, languageId, isShowLyricTransition }) {
       this.lrcConfig = config
-      this.isShowLyricTranslation = isShowLyricTranslation
-      this.isPlayLxlrc = isPlayLxlrc
+      this.isShowLyricTransition = isShowLyricTransition
       if (this.$i18n.locale !== languageId && languageId != null) this.$i18n.locale = languageId
     },
     handleMouseDown(origin, event) {

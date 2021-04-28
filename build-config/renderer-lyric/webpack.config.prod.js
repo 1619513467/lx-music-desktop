@@ -34,6 +34,7 @@ module.exports = merge(baseConfig, {
     }),
   ],
   optimization: {
+    chunkIds: 'named',
     minimizer: [
       new TerserPlugin(),
       new OptimizeCSSAssetsPlugin({}),

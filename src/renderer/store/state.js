@@ -58,11 +58,6 @@ export default {
       class: 'blue2',
     },
     {
-      id: 13,
-      name: '黑纸白字',
-      class: 'black',
-    },
-    {
       id: 7,
       name: '月里嫦娥',
       class: 'mid_autumn',
@@ -74,6 +69,11 @@ export default {
     },
     {
       id: 9,
+      name: '璀璨太空',
+      class: 'space',
+    },
+    {
+      id: 10,
       name: '新年快乐',
       class: 'happy_new_year',
     },

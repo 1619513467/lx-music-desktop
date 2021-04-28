@@ -2,13 +2,10 @@ import { httpFetch } from '../../request'
 import { decodeLyric } from './util'
 import { decodeName } from '../..'
 
-const headExp = /^.*\[id:\$\w+\]\n/
-
 const parseLyric = str => {
-  str = str.replace(/\r/g, '')
-  if (headExp.test(str)) str = str.replace(headExp, '')
+  str = str.replace(/(?:<\d+,\d+,\d+>|\r)/g, '')
+  if (str.startsWith('\ufeff[id:$00000000]')) str = str.replace('\ufeff[id:$00000000]\n', '')
   let trans = str.match(/\[language:([\w=\\/+]+)\]/)
-  let lyric
   let tlyric
   if (trans) {
     str = str.replace(/\[language:[\w=\\/+]+\]\n/, '')
@@ -21,7 +18,7 @@ const parseLyric = str => {
     }
   }
   let i = 0
-  let lxlyric = str.replace(/\[((\d+),\d+)\].*/g, str => {
+  let lyric = str.replace(/\[((\d+),\d+)\].*/g, str => {
     let result = str.match(/\[((\d+),\d+)\].*/)
     let time = parseInt(result[2])
     let ms = time % 1000
@@ -34,14 +31,11 @@ const parseLyric = str => {
     return str.replace(result[1], time)
   })
   tlyric = tlyric ? tlyric.join('\n') : ''
-  lxlyric = lxlyric.replace(/<(\d+,\d+),\d+>/g, '<$1>')
-  lxlyric = decodeName(lxlyric)
-  lyric = lxlyric.replace(/<\d+,\d+>/g, '')
+  lyric = decodeName(lyric)
   tlyric = decodeName(tlyric)
   return {
     lyric,
     tlyric,
-    lxlyric,
   }
 }
 
@@ -125,7 +119,7 @@ export default {
     let requestObj = this.searchLyric(songInfo.name, songInfo.hash, songInfo._interval || this.getIntv(songInfo.interval))
 
     requestObj.promise = requestObj.promise.then(result => {
-      if (!result) return { lyric: null, tlyric: null, lxlyric: null }
+      if (!result) return { lyric: '', tlyric: '' }
 
       let requestObj2 = this.getLyricDownload(result.id, result.accessKey)
 

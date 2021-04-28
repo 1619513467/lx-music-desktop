@@ -13,7 +13,7 @@
 1. 尝试更新到最新版本
 2. 尝试切换其他歌曲（或直接搜索该歌曲），若全部歌曲都无法试听与下载则进行下一步
 3. 尝试到 设置-音乐来源 切换到其他接口
-4. 尝试切换网络，比如用手机开热点（所有歌曲都提示请求异常时可通过此方法解决，或等一两天后再试）
+4. 尝试切换网络，比如用手机开热点（目前存在某些网络无法访问接口服务器的情况）
 5. 若还不行请到这个链接查看详情：<https://github.com/lyswhut/lx-music-desktop/issues/5>
 6. 若没有在第5条链接中的第一条评论中看到接口无法使用的说明，则应该是你网络无法访问接口服务器的问题，如果接口有问题我会在那里说明。
 
@@ -39,30 +39,15 @@
 
 播放在线列表内的歌曲需要将它们都添加到我的列表才能播放，你可以全选列表内的歌曲然后添加到现有列表或者新创建的列表，然后去播放该列表内的歌曲。
 
-## 无法打开外部歌单
-
-不支持垮源打开歌单，请**确认**你需要打开的歌单平台是否与软件标签所写的**歌单源**对应（不一样的话请通过右上角切换歌单源）；<br>
-对于分享出来的歌单，若打开失败，可尝试先在浏览器中打开后，再从浏览器地址栏复制URL地址到软件打开；<br>
-或者如果你知道歌单 id 也可以直接输入歌单 id 打开。<br>
-
-## 界面异常（界面显示不完整）
-
-### Windows 7 下界面异常
+## Windows 7 下界面异常（界面显示不完整）
 
 由于软件默认使用了透明窗口，根据Electron官方文档的[说明](https://electronjs.org/docs/api/frameless-window#%E5%B1%80%E9%99%90%E6%80%A7)：
 > 在 windows 操作系统上, 当 DWM 被禁用时, 透明窗口将无法工作。
 
 因此，当 win7 没有使用**AERO**主题时界面将会显示异常，开启AERO的方法请自行百度：`win7开启aero效果`（开启后可看到任务栏变透明）。<br>
-从`0.14.0`版本起不再强制要求开启透明效果，若你实在不想开启（若非电脑配置太低，墙裂建议开启！），可通过添加运行参数`-dt`来运行程序即可，例如：`.\lx-music-desktop.exe -dt`，添加方法可自行百度“给快捷方式加参数”，该参数的作用是用来控制程序是否使用非透明窗口运行。
+从`0.14.0`版本起不再强制要求开启透明效果，若你实在不想开启（若非电脑配置太低，墙裂建议开启！），可通过添加运行参数`-nt`来运行程序即可，例如：`.\lx-music-desktop.exe -nt`，添加方法可自行百度“给快捷方式加参数”，该参数的作用是用来控制程序是否使用非透明窗口运行。
 
-对于一些完全无法正常显示界面、开启了AERO后问题仍未解决的情况，请阅读下面的 **软件启动后，界面无法显示** 解决。
-
-### Linux 下界面异常
-
-根据Electron里issue的[解决方案](https://github.com/electron/electron/issues/2170#issuecomment-736223269)，<br>
-若你遇到透明问题可尝试添加启动参数 `-dha` 来禁用硬件加速，例如：`.\lx-music-desktop.exe -dha`。
-
-注：v1.6.0及之后的版本才支持`-dha`参数
+对于一些完全无法正常显示界面、开启了AERO后问题仍未解决的情况，请阅读下面的 **软件启动后，界面无法显示** 解决
 
 ## 软件启动后，界面无法显示
 
@@ -75,7 +60,6 @@
 若还是不行可尝试以下操作：
 
 - 更新显卡驱动
-- 添加启动参数`-dha`运行（添加的方法请自行百度“给快捷方式加参数”）
 - 尝试将绿色版的软件放在**桌面**或**我的文档**运行
 
 ## 安装版安装失败，提示安装程序并未成功地运行完成
@@ -85,6 +69,12 @@
 - 若你之前可以安装成功，但现在安装失败，就去**控制面板-程序和功能**或用第三方卸载工具看下有没有之前的版本残留，若同时在不同路径下安装了多个版本就可能会出现该问题，这种情况卸载掉所有版本重新安装即可
 - 清理安装路径下的残留文件
 - 清理注册表（建议用清理工具清理）
+
+## 无法打开外部歌单
+
+不支持垮源打开歌单，请**确认**你需要打开的歌单平台是否与软件标签所写的**歌单源**对应（不一样的话请通过右上角切换歌单源）；<br>
+对于分享出来的歌单，若打开失败，可尝试先在浏览器中打开后，再从浏览器地址栏复制URL地址到软件打开；<br>
+或者如果你知道歌单 id 也可以直接输入歌单 id 打开。<br>
 
 ## 软件无法联网
 
@@ -108,30 +98,10 @@ Windows 7 未开启 Aero 效果时桌面歌词会有问题，详情看下面的 
 
 ### Linux 系统下桌面歌词窗口异常
 
-`v1.2.1`以前的版本在 Ubuntu 18.10 下第一次开启桌面歌词时歌词窗口会变白，需要关闭后再开启，
-`v1.2.1`及之后的版本已修复该问题。
+目前在 Ubuntu 18.10 下第一次开启桌面歌词时歌词窗口会变白，需要关闭后再开启，
 
-其他 Linux 系统未测试，如有异常也是意料之中，目前不打算去处理 Linux 平台的桌面歌词问题，但你可以尝试按照`Linux 下界面异常`的解决方案去解决。
+其他 Linux 系统未测试，如有异常也是意料之中，目前不打算去处理 Linux 平台的桌面歌词问题。
 
-## 歌曲下载失败
-
-### 提示 `ENOENT: no such file or directory, mkdir`
-
-更换下载歌曲目录即可解决（一般是设置的歌曲下载目录没有读写权限导致的）。
-
-### 提示 `请求异常` 或 `Fail`
-
-尝试更换网络，如切换到移动网络。
-
-## 使用软件时导致耳机意外关机
-
-据反馈，漫步者部分型号的耳机与本软件一起使用时将会导致耳机意外关机，
-详情看：<https://github.com/lyswhut/lx-music-desktop/issues/457>，
-若出现该问题可尝试添加`-dhmkh`启动参数解决，启动参数添加方法请自行百度“windows给应用程序加启动参数的方法”。
-
-### 其他错误
-
-按照前面的 "歌曲无法试听与下载" 方案解决。
 
 ## 软件安装包说明
 
@@ -155,12 +125,6 @@ Windows 7 未开启 Aero 效果时桌面歌词会有问题，详情看下面的 
 注意：**绿色版**的软件自动更新功能**不可用**，建议使用安装版！！<br>
 注意：**Mac版**、**Linux deb**版不支持自动更新！
 
-## 更新已收藏的在线歌单
-
-该功能仅对直接从歌单详情页点“收藏”按钮收藏的歌单有效，可右击已收藏的列表名从弹出的菜单中选择“同步”使用该功能，
-
-需要注意的是：这将会覆盖本地的目标列表，歌曲将被替换成最新的在线列表。
-
 ## 缺少`xxx.dll`
 
 这个是电脑缺少某些dll导致的，正常的系统是没有这个问题的，可以尝试如下几个解决办法：
@@ -170,172 +134,10 @@ Windows 7 未开启 Aero 效果时桌面歌词会有问题，详情看下面的 
 
 ## 杀毒软件提示有病毒或恶意行为
 
-本人只能保证我写的代码不包含任何**恶意代码**、**收集用户信息**的行为，并且软件代码已开源，请自行查阅，软件安装包也是由CI拉取源代码构建，构建日志：[GitHub Actions](https://github.com/lyswhut/lx-music-desktop/actions)<br>
+本人只能保证我写的代码不包含任何**恶意代码**、**收集用户信息**的行为，并且软件代码已开源，请自行查阅，软件安装包也是由CI拉取源代码构建，构建日志：[windows包](https://ci.appveyor.com/project/lyswhut/lx-music-desktop)、[Mac/Linux包](https://travis-ci.com/github/lyswhut/lx-music-desktop)<br>
 尽管如此，但这不意味着软件是100%安全的，由于软件使用了第三方依赖，当这些依赖存在恶意行为时（[供应链攻击](https://docs.microsoft.com/zh-cn/windows/security/threat-protection/intelligence/supply-chain-malware)），软件也将会受到牵连，所以我只能尽量选择使用较多人用、信任度较高的依赖。<br>
 当然，以上说明建立的前提是在你所用的安装包是从**本项目主页上写的链接**下载的，或者有相关能力者还可以下载源代码自己构建安装包。
 
 从`v0.17.0`起，由于加入了音频输出设备切换功能，该功能调用了 [MediaDevices.enumerateDevices()](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/enumerateDevices)，可能导致安全软件提示洛雪要访问摄像头（目前发现卡巴斯基会提示），但实际上没有用到摄像头，并且摄像头的提示灯也不会亮，你可以选择阻止访问。
 
 最后，若出现杀毒软件报毒、存在恶意行为，请自行判断选择是否继续使用本软件！
-
-## 自定义源脚本编写说明
-
-文件请使用UTF-8编码格式编写，脚本所用编程语言为JavaScript，可以使用ES6+语法，脚本与应用的交互是使用类似事件收发的方式进行，这是一个基本的脚本例子：
-
-```js
-/**
- * @name 测试音乐源
- * @description 我只是一个测试音乐源哦
- * @version 1.0.0
- * @author xxx
- * @homepage http://xxx
- */
-
-
-const { EVENT_NAMES, request, on, send } = window.lx
-
-const qualitys = {
-  kw: {
-    '128k': '128',
-    '320k': '320',
-    flac: 'flac',
-  },
-}
-const httpRequest = (url, options) => new Promise((resolve, reject) => {
-  request(url, options, (err, resp) => {
-    if (err) return reject(err)
-    resolve(resp.body)
-  })
-})
-
-const apis = {
-  kw: {
-    musicUrl({ songmid }, quality) {
-      return httpRequest('http://xxx').then(data => {
-        return data.url
-      })
-    },
-  },
-}
-
-// 注册应用API请求事件
-// source 音乐源，可能的值取决于初始化时传入的sources对象的源key值
-// info 请求附加信息，内容根据action变化
-// action 请求操作类型，目前只有musicUrl，即获取音乐URL链接，
-//    当action为musicUrl时info的结构：{type, musicInfo}，
-//        info.type：音乐质量，可能的值有128k / 320k / flac（取决于初始化时对应源传入的qualitys值中的一个），
-//        info.musicInfo：音乐信息对象，里面有音乐ID、名字等信息
-on(EVENT_NAMES.request, ({ source, action, info }) => {
-  // 回调必须返回 Promise 对象
-  switch (action) {
-    // action 为 musicUrl 时需要在 Promise 返回歌曲 url
-    case 'musicUrl':
-      return apis[source].musicUrl(info.musicInfo, qualitys[source][info.type]).catch(err => {
-        console.log(err)
-        return Promise.reject(err)
-      })
-  }
-})
-
-// 脚本初始化完成后需要发送inited事件告知应用
-send(EVENT_NAMES.inited, {
-  status: true, // 初始化成功 or 失败
-  openDevTools: false, // 是否打开开发者工具，方便用于调试脚本
-  sources: { // 当前脚本支持的源
-    kw: { // 支持的源对象，可用key值：kw/kg/tx/wy/mg
-      name: '酷我音乐',
-      type: 'music',  // 目前固定为 music
-      actions: ['musicUrl'], // 目前固定为 ['musicUrl']
-      qualitys: ['128k', '320k', 'flac'], // 当前脚本的该源所支持获取的Url音质，有效的值有：['128k', '320k', 'flac']
-    },
-  },
-})
-
-```
-
-### 自定义源信息
-
-文件的开头必须包含以下注释：
-
-```js
-/**
- * @name 测试脚本
- * @description 我只是一个测试脚本
- * @version 1.0.0
- * @author xxx
- * @homepage http://xxx
- */
-
-```
-
-- `@name `：源的名字，建议不要过长，10个字符以内
-- `@description `：源的描述，建议不要过长，20个字符以内，可不填，不填时必须保留 @description
-- `@version`：源的版本号，可不填，不填时可以删除 @version
-- `@author `：脚本作者名字，可不填，不填时可以删除 @author
-- `@homepage `：脚本主页，可不填，不填时可以删除 @homepage
-
-### `window.lx`
-
-应用为脚本暴露的API对象。
-
-#### `window.lx.EVENT_NAMES`
-
-常量事件名称对象，发送、注册事件时传入事件名时使用，可用值：
-
-| 事件名 | 描述
-| --- | ---
-| `inited` | 脚本初始化完成后发送给应用的事件名，发送该事件时需要传入以下信息：`{status, sources, openDevTools}`<br>`status`：初始化结果（`true`成功，`false`失败）<br>`openDevTools`：是否打开DevTools，此选项可用于开发脚本时的调试<br>`sources`：支持的源信息对象，<br>`sources[kw/kg/tx/wy/mg].name`：源的名字（目前非必须）<br>`sources[kw/kg/tx/wy/mg].type`：源类型，目前固定值需为`music`<br>`sources[kw/kg/tx/wy/mg].actions`：支持的actions，由于目前只支持`musicUrl`，所以固定传`['musicUrl']`即可<br>`sources[kw/kg/tx/wy/mg].qualitys`：该源支持的音质列表，有效的值为`['128k', '320k', 'flac']`，该字段用于控制应用可用的音质类型
-| `request` | 应用API请求事件名，回调入参：`handler({ source, action, info})`，回调必须返回`Promise`对象<br>`source`：音乐源，可能的值取决于初始化时传入的`sources`对象的源key值<br>`info`：请求附加信息，内容根据`action`变化<br>`action`：请求操作类型，目前只有`musicUrl`，即获取音乐URL链接，需要在 Promise 返回歌曲 url，`info`的结构：`{type, musicInfo}`，`info.type`：音乐质量，可能的值有`128k` / `320k` / `flac`（取决于初始化时对应源传入的`qualitys`值中的一个），`info.musicInfo`：音乐信息对象，里面有音乐ID、名字等信息
-
-
-#### `window.lx.on`
-
-事件注册方法，应用主动与脚本通信时使用：
-
-```js
-/**
- * @param event_name 事件名
- * @param handler 事件处理回调 -- 注意：注册的回调必须返回 Promise 对象
- */
-window.lx.on(event_name, handler)
-```
-
-**注意：** 注册的回调必须返回 `Promise` 对象。
-
-#### `window.lx.send`
-
-事件发送方法，脚本主动与应用通信时使用：
-
-```js
-/**
- * @param event_name 事件名
- * @param datas 要传给应用的数据
- */
-window.lx.send(event_name, datas)
-```
-
-#### `window.lx.request`
-
-HTTP请求方法，用于发送HTTP请求，此HTTP请求方法不受跨域规则限制：
-
-```js
-/**
- * @param url 请求的URL
- * @param options 请求选项，可用选项有 method / headers / body / form / formData / timeout
- * @param callback 请求结果的回调 入参：err, resp, body
- * @return 返回一个方法，调用此方法可以终止HTTP请求
- */
-const cancelHttp = window.lx.request(url, options, callback)
-```
-
-#### `window.lx.utils`
-
-应用提供给脚本的工具方法：
-
-- `window.lx.utils.buffer.from`：对应Node.js的 `Buffer.from`
-- `window.lx.utils.crypto.aesEncrypt`：AES加密 `aesEncrypt(buffer, mode, key, iv)`
-- `window.lx.utils.crypto.md5`：MD5加密 `md5(str)`
-- `window.lx.utils.crypto.randomBytes`：生成随机字符串 `randomBytes(size)`
-- `window.lx.utils.crypto.rsaEncrypt`：RSA加密 `rsaEncrypt(buffer, key)`
-
-目前仅提供以上工具方法，如果需要其他方法可以开issue讨论。

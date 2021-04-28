@@ -13,7 +13,6 @@ for (const api of apiSourceInfo) {
 const getAPI = source => apiList[`${window.globalObj.apiSource}_api_${source}`]
 
 const apis = source => {
-  if (/^user_api/.test(window.globalObj.apiSource)) return window.globalObj.userApi.apis[source]
   let api = getAPI(source)
   if (api) return api
   throw new Error('Api is not found')

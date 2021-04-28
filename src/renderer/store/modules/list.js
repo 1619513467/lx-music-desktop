@@ -1,6 +1,3 @@
-import musicSdk from '../../utils/music'
-import { clearLyric, clearMusicUrl } from '../../utils'
-
 let allList = {}
 window.allList = allList
 
@@ -51,12 +48,7 @@ const getters = {
 
 // actions
 const actions = {
-  getOtherSource({ state, commit }, musicInfo) {
-    return (musicInfo.otherSource && musicInfo.otherSource.length ? Promise.resolve(musicInfo.otherSource) : musicSdk.findMusic(musicInfo)).then(otherSource => {
-      commit('setOtherSource', { musicInfo, otherSource })
-      return otherSource
-    })
-  },
+
 }
 
 // mitations
@@ -68,7 +60,7 @@ const mutations = {
     allListInit(state.defaultList, state.loveList, state.userList)
     state.isInitedList = true
   },
-  setList(state, { id, list, name, location, source, sourceListId }) {
+  setList(state, { id, list, name, location }) {
     const targetList = allList[id]
     if (targetList) {
       if (name && targetList.name === name) {
@@ -84,8 +76,6 @@ const mutations = {
       id,
       list,
       location,
-      source,
-      sourceListId,
     }
     state.userList.push(newList)
     allListUpdate(newList)
@@ -150,12 +140,12 @@ const mutations = {
     if (!targetList) return
     targetList.list.splice(0, targetList.list.length)
   },
-  updateMusicInfo(state, { id, index, data, musicInfo = {} }) {
+  updateMusicInfo(state, { id, index, data }) {
     let targetList = allList[id]
-    if (!targetList) return Object.assign(musicInfo, data)
+    if (!targetList) return
     Object.assign(targetList.list[index], data)
   },
-  createUserList(state, { name, id = `userlist_${Date.now()}`, list = [], source, sourceListId }) {
+  createUserList(state, { name, id = `userlist_${Date.now()}`, list = [] }) {
     let newList = state.userList.find(item => item.id === id)
     if (!newList) {
       newList = {
@@ -163,8 +153,6 @@ const mutations = {
         id,
         list: [],
         location: 0,
-        source,
-        sourceListId,
       }
       state.userList.push(newList)
       allListUpdate(newList)
@@ -192,34 +180,6 @@ const mutations = {
   },
   setListScroll(state, { id, location }) {
     if (allList[id]) allList[id].location = location
-  },
-  sortList(state, { id, sortNum, musicInfos }) {
-    let targetList = allList[id]
-    this.commit('list/listRemoveMultiple', { id, list: musicInfos })
-
-    targetList.list.splice(sortNum - 1, 0, ...musicInfos)
-  },
-  clearCache() {
-    const lists = Object.values(allList)
-    for (const { list } of lists) {
-      for (const item of list) {
-        if (item.otherSource) item.otherSource = null
-        if (item.typeUrl['128k']) delete item.typeUrl['128k']
-        if (item.typeUrl['320k']) delete item.typeUrl['320k']
-        if (item.typeUrl.flac) delete item.typeUrl.flac
-        if (item.typeUrl.wav) delete item.typeUrl.wav
-
-        // v1.8.2以前的Lyric
-        if (item.lxlrc) delete item.lxlrc
-        if (item.lrc) delete item.lrc
-        if (item.tlrc) delete item.tlrc
-      }
-    }
-    clearMusicUrl()
-    clearLyric()
-  },
-  setOtherSource(state, { musicInfo, otherSource }) {
-    musicInfo.otherSource = otherSource
   },
 }
 

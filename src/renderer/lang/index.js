@@ -1,7 +1,7 @@
 // http://kazupon.github.io/vue-i18n/en/messages.html
 
 const requireLang = require.context(
-  '@renderer/lang',
+  '@/lang',
   true,
   /\.json$/,
 )

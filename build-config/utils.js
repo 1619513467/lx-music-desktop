@@ -2,6 +2,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const cssLoaderConfig = require('./css-loader.config')
 const chalk = require('chalk')
 
+const isDev = process.env.NODE_ENV === 'development'
+
 // merge css-loader
 exports.mergeCSSLoader = beforeLoader => {
   const loader = [
@@ -12,7 +14,7 @@ exports.mergeCSSLoader = beforeLoader => {
         {
           loader: MiniCssExtractPlugin.loader,
           options: {
-            esModule: false,
+            hmr: isDev,
           },
         },
         {
@@ -28,7 +30,7 @@ exports.mergeCSSLoader = beforeLoader => {
         {
           loader: MiniCssExtractPlugin.loader,
           options: {
-            esModule: false,
+            hmr: isDev,
           },
         },
         'css-loader',
